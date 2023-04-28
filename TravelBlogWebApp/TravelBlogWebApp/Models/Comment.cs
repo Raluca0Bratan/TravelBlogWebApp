@@ -1,12 +1,11 @@
 ﻿namespace TravelBlogWebApp.Models
 {
-    public class Comment
+    public class Comment:ModelEntity
     {
-        public int CommentID { get; set; }
+      
+        public int UserId { get; set; }
 
-        public string Author { get; set; }
-
-        public int PostID { get; set; }
+        public int PostId { get; set; }
         public Post? Post { get; set; }
 
         public DateTime DateTime { get; set; }

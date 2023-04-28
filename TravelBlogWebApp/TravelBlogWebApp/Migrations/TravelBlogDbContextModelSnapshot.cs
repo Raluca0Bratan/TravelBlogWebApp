@@ -24,11 +24,11 @@ namespace TravelBlogWebApp.Migrations
 
             modelBuilder.Entity("TravelBlogWebApp.Models.Blog", b =>
                 {
-                    b.Property<int>("BlogID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BlogID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Author")
                         .IsRequired()
@@ -38,22 +38,18 @@ namespace TravelBlogWebApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("BlogID");
+                    b.HasKey("Id");
 
                     b.ToTable("Blogs");
                 });
 
             modelBuilder.Entity("TravelBlogWebApp.Models.Comment", b =>
                 {
-                    b.Property<int>("CommentID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentID"));
-
-                    b.Property<string>("Author")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -62,25 +58,30 @@ namespace TravelBlogWebApp.Migrations
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PostID")
+                    b.Property<int>("PostId")
                         .HasColumnType("int");
 
-                    b.HasKey("CommentID");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("PostID");
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("TravelBlogWebApp.Models.Destination", b =>
                 {
-                    b.Property<int>("DestinationID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DestinationID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("BlogID")
+                    b.Property<int>("BlogId")
                         .HasColumnType("int");
 
                     b.Property<string>("City")
@@ -97,22 +98,22 @@ namespace TravelBlogWebApp.Migrations
                     b.Property<int>("LikesNumber")
                         .HasColumnType("int");
 
-                    b.HasKey("DestinationID");
+                    b.HasKey("Id");
 
-                    b.HasIndex("BlogID");
+                    b.HasIndex("BlogId");
 
                     b.ToTable("Destinations");
                 });
 
             modelBuilder.Entity("TravelBlogWebApp.Models.Post", b =>
                 {
-                    b.Property<int>("PostID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("BlogID")
+                    b.Property<int>("BlogId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateTime")
@@ -125,20 +126,20 @@ namespace TravelBlogWebApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("PostID");
+                    b.HasKey("Id");
 
-                    b.HasIndex("BlogID");
+                    b.HasIndex("BlogId");
 
                     b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("TravelBlogWebApp.Models.Section", b =>
                 {
-                    b.Property<int>("SectionID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SectionID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -148,16 +149,16 @@ namespace TravelBlogWebApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PostID")
+                    b.Property<int>("PostId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("SectionID");
+                    b.HasKey("Id");
 
-                    b.HasIndex("PostID");
+                    b.HasIndex("PostId");
 
                     b.ToTable("Sections");
                 });
@@ -170,7 +171,7 @@ namespace TravelBlogWebApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("BlogID")
+                    b.Property<int>("BlogId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -191,7 +192,7 @@ namespace TravelBlogWebApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BlogID");
+                    b.HasIndex("BlogId");
 
                     b.ToTable("Users");
                 });
@@ -200,7 +201,13 @@ namespace TravelBlogWebApp.Migrations
                 {
                     b.HasOne("TravelBlogWebApp.Models.Post", "Post")
                         .WithMany("Comments")
-                        .HasForeignKey("PostID")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TravelBlogWebApp.Models.User", null)
+                        .WithMany("Comments")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -211,7 +218,7 @@ namespace TravelBlogWebApp.Migrations
                 {
                     b.HasOne("TravelBlogWebApp.Models.Blog", "Blog")
                         .WithMany("Destinations")
-                        .HasForeignKey("BlogID")
+                        .HasForeignKey("BlogId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -222,7 +229,7 @@ namespace TravelBlogWebApp.Migrations
                 {
                     b.HasOne("TravelBlogWebApp.Models.Blog", "Blog")
                         .WithMany("Posts")
-                        .HasForeignKey("BlogID")
+                        .HasForeignKey("BlogId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -233,7 +240,7 @@ namespace TravelBlogWebApp.Migrations
                 {
                     b.HasOne("TravelBlogWebApp.Models.Post", "Post")
                         .WithMany("Sections")
-                        .HasForeignKey("PostID")
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -244,7 +251,7 @@ namespace TravelBlogWebApp.Migrations
                 {
                     b.HasOne("TravelBlogWebApp.Models.Blog", "Blog")
                         .WithMany("Users")
-                        .HasForeignKey("BlogID")
+                        .HasForeignKey("BlogId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -265,6 +272,11 @@ namespace TravelBlogWebApp.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Sections");
+                });
+
+            modelBuilder.Entity("TravelBlogWebApp.Models.User", b =>
+                {
+                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }

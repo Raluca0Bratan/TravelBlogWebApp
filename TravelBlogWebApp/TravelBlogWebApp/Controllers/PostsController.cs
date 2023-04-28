@@ -1,41 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TravelBlogWebApp.Models;
+using TravelBlogWebApp.ServicesFolder.Interfaces;
 
 namespace TravelBlogWebApp.Controllers
 {
     public class PostsController : Controller
     {
-        private readonly TravelBlogDbContext _context;
+        private readonly IPostService postService;
+        private readonly IBlogService blogService;
 
-        public PostsController(TravelBlogDbContext context)
+        public PostsController(IPostService postService)
         {
-            _context = context;
+           this.postService = postService;
         }
 
         // GET: Posts
         public async Task<IActionResult> Index()
         {
-            var travelBlogDbContext = _context.Posts.Include(p => p.Blog);
-            return View(await travelBlogDbContext.ToListAsync());
+            return View(postService.GetAll());
         }
 
         // GET: Posts/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null || _context.Posts == null)
+            if (id == null || postService.GetAll == null)
             {
                 return NotFound();
             }
 
-            var post = await _context.Posts
-                .Include(p => p.Blog)
-                .FirstOrDefaultAsync(m => m.PostID == id);
+            var post = postService.GetPostWithSectionsAndComments(id);
             if (post == null)
             {
                 return NotFound();
@@ -47,7 +43,7 @@ namespace TravelBlogWebApp.Controllers
         // GET: Posts/Create
         public IActionResult Create()
         {
-            ViewData["BlogID"] = new SelectList(_context.Blogs, "BlogID", "BlogID");
+            ViewData["BlogId"] = new SelectList(blogService.GetAll(), "Id", "Id");
             return View();
         }
 
@@ -56,32 +52,31 @@ namespace TravelBlogWebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PostID,Title,DateTime,LikesNumber,BlogID")] Post post)
+        public async Task<IActionResult> Create([Bind("Title,DateTime,LikesNumber,BlogId,Id")] Post post)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(post);
-                await _context.SaveChangesAsync();
+                postService.Add(post);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BlogID"] = new SelectList(_context.Blogs, "BlogID", "BlogID", post.BlogID);
+            ViewData["BlogId"] = new SelectList(blogService.GetAll(), "Id", "Id", post.BlogId);
             return View(post);
         }
 
         // GET: Posts/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null || _context.Posts == null)
+            if (id == null || postService.GetAll() == null)
             {
                 return NotFound();
             }
 
-            var post = await _context.Posts.FindAsync(id);
+            var post =  postService.GetById(id);
             if (post == null)
             {
                 return NotFound();
             }
-            ViewData["BlogID"] = new SelectList(_context.Blogs, "BlogID", "BlogID", post.BlogID);
+            ViewData["BlogId"] = new SelectList(blogService.GetAll(), "Id", "Id", post.BlogId);
             return View(post);
         }
 
@@ -90,9 +85,9 @@ namespace TravelBlogWebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PostID,Title,DateTime,LikesNumber,BlogID")] Post post)
+        public async Task<IActionResult> Edit(int id, [Bind("Title,DateTime,LikesNumber,BlogId,Id")] Post post)
         {
-            if (id != post.PostID)
+            if (id != post.Id)
             {
                 return NotFound();
             }
@@ -101,12 +96,11 @@ namespace TravelBlogWebApp.Controllers
             {
                 try
                 {
-                    _context.Update(post);
-                    await _context.SaveChangesAsync();
+                    postService.Update(post);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PostExists(post.PostID))
+                    if (!PostExists(post.Id))
                     {
                         return NotFound();
                     }
@@ -117,21 +111,19 @@ namespace TravelBlogWebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BlogID"] = new SelectList(_context.Blogs, "BlogID", "BlogID", post.BlogID);
+            ViewData["BlogId"] = new SelectList(blogService.GetAll(), "Id", "Id", post.BlogId);
             return View(post);
         }
 
         // GET: Posts/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null || _context.Posts == null)
+            if (id == null || postService.GetAll() == null)
             {
                 return NotFound();
             }
 
-            var post = await _context.Posts
-                .Include(p => p.Blog)
-                .FirstOrDefaultAsync(m => m.PostID == id);
+            var post = postService.GetById(id);
             if (post == null)
             {
                 return NotFound();
@@ -145,23 +137,22 @@ namespace TravelBlogWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Posts == null)
+            if (postService.GetAll() == null)
             {
                 return Problem("Entity set 'TravelBlogDbContext.Posts'  is null.");
             }
-            var post = await _context.Posts.FindAsync(id);
+            var post = postService.GetById(id);
             if (post != null)
             {
-                _context.Posts.Remove(post);
+                postService.Delete(post);
             }
             
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PostExists(int id)
         {
-          return (_context.Posts?.Any(e => e.PostID == id)).GetValueOrDefault();
+            return postService.GetAll().Any(p => p.Id == id);
         }
     }
 }

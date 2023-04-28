@@ -46,12 +46,12 @@
                 @Html.DisplayFor(modelItem => item.LikesNumber)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Blog.BlogID)
+                @Html.DisplayFor(modelItem => item.Blog.Id)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.DestinationID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.DestinationID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.DestinationID">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }

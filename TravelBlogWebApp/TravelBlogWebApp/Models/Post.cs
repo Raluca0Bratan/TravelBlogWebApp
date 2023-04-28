@@ -1,8 +1,7 @@
 ﻿namespace TravelBlogWebApp.Models
 {
-    public class Post
+    public class Post:ModelEntity
     {
-        public int PostID { get; set; }
 
         public string Title { get; set; }
 
@@ -10,7 +9,7 @@
 
         public int LikesNumber { get; set; }
 
-        public int BlogID { get; set; }
+        public int BlogId { get; set; }
 
         public Blog? Blog { get; set; }
 

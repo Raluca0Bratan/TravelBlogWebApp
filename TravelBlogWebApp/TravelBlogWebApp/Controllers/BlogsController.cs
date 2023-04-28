@@ -1,41 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TravelBlogWebApp.Models;
+using TravelBlogWebApp.ServicesFolder.Interfaces;
 
 namespace TravelBlogWebApp.Controllers
 {
     public class BlogsController : Controller
     {
-        private readonly TravelBlogDbContext _context;
+        private readonly IBlogService blogService;
 
-        public BlogsController(TravelBlogDbContext context)
+        public BlogsController(IBlogService blogService)
         {
-            _context = context;
+            this.blogService = blogService;
         }
 
         // GET: Blogs
         public async Task<IActionResult> Index()
         {
-              return _context.Blogs != null ? 
-                          View(await _context.Blogs.ToListAsync()) :
-                          Problem("Entity set 'TravelBlogDbContext.Blogs'  is null.");
+            return View(blogService.GetAll());
         }
 
         // GET: Blogs/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null || _context.Blogs == null)
+            if (id == null || blogService.GetAll() == null)
             {
                 return NotFound();
             }
 
-            var blog = await _context.Blogs
-                .FirstOrDefaultAsync(m => m.BlogID == id);
+            var blog = blogService.GetBlogWithDestinationsAndPosts(id);
             if (blog == null)
             {
                 return NotFound();
@@ -59,23 +53,22 @@ namespace TravelBlogWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(blog);
-                await _context.SaveChangesAsync();
+                blogService.Add(blog);
                 return RedirectToAction(nameof(Index));
             }
             return View(blog);
         }
 
         // GET: Blogs/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null || _context.Blogs == null)
+            if (id == null || blogService.GetAll() == null)
             {
                 return NotFound();
             }
 
-            var blog = await _context.Blogs.FindAsync(id);
-            if (blog == null)
+            var blog =  blogService.GetById(id);
+            if (blog == null) 
             {
                 return NotFound();
             }
@@ -87,9 +80,9 @@ namespace TravelBlogWebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BlogID,Author,Name")] Blog blog)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Author,Name")] Blog blog)
         {
-            if (id != blog.BlogID)
+            if (id != blog.Id)
             {
                 return NotFound();
             }
@@ -98,12 +91,11 @@ namespace TravelBlogWebApp.Controllers
             {
                 try
                 {
-                    _context.Update(blog);
-                    await _context.SaveChangesAsync();
+                    blogService.Update(blog);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BlogExists(blog.BlogID))
+                    if (!BlogExists(blog.Id))
                     {
                         return NotFound();
                     }
@@ -118,15 +110,14 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // GET: Blogs/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null || _context.Blogs == null)
+            if (id == null || blogService.GetAll() == null)
             {
                 return NotFound();
             }
 
-            var blog = await _context.Blogs
-                .FirstOrDefaultAsync(m => m.BlogID == id);
+            var blog = blogService.GetById(id);
             if (blog == null)
             {
                 return NotFound();
@@ -140,23 +131,22 @@ namespace TravelBlogWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Blogs == null)
+            if (blogService.GetAll() == null)
             {
                 return Problem("Entity set 'TravelBlogDbContext.Blogs'  is null.");
             }
-            var blog = await _context.Blogs.FindAsync(id);
+            var blog = blogService.GetById(id);
             if (blog != null)
             {
-                _context.Blogs.Remove(blog);
+                blogService.Delete(blog);
             }
-            
-            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
         private bool BlogExists(int id)
         {
-          return (_context.Blogs?.Any(e => e.BlogID == id)).GetValueOrDefault();
+            return (blogService.GetAll().Any(e => e.Id == id));
         }
     }
 }

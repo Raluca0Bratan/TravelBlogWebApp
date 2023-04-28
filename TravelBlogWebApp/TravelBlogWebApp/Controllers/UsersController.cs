@@ -6,36 +6,36 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TravelBlogWebApp.Models;
+using TravelBlogWebApp.ServicesFolder.Interfaces;
 
 namespace TravelBlogWebApp.Controllers
 {
     public class UsersController : Controller
     {
-        private readonly TravelBlogDbContext _context;
+        private readonly IUserService userService;
+        private readonly IBlogService blogService;  
 
-        public UsersController(TravelBlogDbContext context)
+        public UsersController(IUserService userService)
         {
-            _context = context;
+           this.userService = userService;
         }
 
         // GET: Users
         public async Task<IActionResult> Index()
         {
-            var travelBlogDbContext = _context.Users.Include(u => u.Blog);
-            return View(await travelBlogDbContext.ToListAsync());
+        
+            return View(userService.GetAll());
         }
 
         // GET: Users/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null || _context.Users == null)
+            if (id == null || userService.GetAll()==null)
             {
                 return NotFound();
             }
 
-            var user = await _context.Users
-                .Include(u => u.Blog)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var user = userService.GetById(id);
             if (user == null)
             {
                 return NotFound();
@@ -47,7 +47,7 @@ namespace TravelBlogWebApp.Controllers
         // GET: Users/Create
         public IActionResult Create()
         {
-            ViewData["BlogID"] = new SelectList(_context.Blogs, "BlogID", "BlogID");
+            ViewData["BlogId"] = new SelectList(blogService.GetAll(), "Id", "Id");
             return View();
         }
 
@@ -56,32 +56,31 @@ namespace TravelBlogWebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Username,Email,Password,ProfilePicturePath,BlogID")] User user)
+        public async Task<IActionResult> Create([Bind("Username,Email,Password,ProfilePicturePath,BlogId,Id")] User user)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
-                await _context.SaveChangesAsync();
+               userService.Add(user);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BlogID"] = new SelectList(_context.Blogs, "BlogID", "BlogID", user.BlogID);
+            ViewData["BlogId"] = new SelectList(blogService.GetAll(), "Id", "Id", user.BlogId);
             return View(user);
         }
 
         // GET: Users/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null || _context.Users == null)
+            if (id == null ||userService.GetAll() == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.Users.FindAsync(id);
+            var user = userService.GetById(id);
             if (user == null)
             {
                 return NotFound();
             }
-            ViewData["BlogID"] = new SelectList(_context.Blogs, "BlogID", "BlogID", user.BlogID);
+            ViewData["BlogId"] = new SelectList(blogService.GetAll(), "Id", "Id", user.BlogId); ;
             return View(user);
         }
 
@@ -90,7 +89,7 @@ namespace TravelBlogWebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Username,Email,Password,ProfilePicturePath,BlogID")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Username,Email,Password,ProfilePicturePath,BlogId,Id")] User user)
         {
             if (id != user.Id)
             {
@@ -101,8 +100,7 @@ namespace TravelBlogWebApp.Controllers
             {
                 try
                 {
-                    _context.Update(user);
-                    await _context.SaveChangesAsync();
+                    userService.Update(user);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -117,21 +115,19 @@ namespace TravelBlogWebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BlogID"] = new SelectList(_context.Blogs, "BlogID", "BlogID", user.BlogID);
+            ViewData["BlogId"] = new SelectList(blogService.GetAll(), "Id", "Id", user.BlogId);
             return View(user);
         }
 
         // GET: Users/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null || _context.Users == null)
+            if (id == null || userService.GetAll() == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.Users
-                .Include(u => u.Blog)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var user = userService.GetById(id);
             if (user == null)
             {
                 return NotFound();
@@ -145,23 +141,22 @@ namespace TravelBlogWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Users == null)
+            if (userService.GetAll() == null)
             {
                 return Problem("Entity set 'TravelBlogDbContext.Users'  is null.");
             }
-            var user = await _context.Users.FindAsync(id);
+            var user = userService.GetById(id);
             if (user != null)
             {
-                _context.Users.Remove(user);
+                userService.Delete(user);
             }
             
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool UserExists(int id)
         {
-          return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
+          return userService.GetAll().Any(x => x.Id == id); 
         }
     }
 }
