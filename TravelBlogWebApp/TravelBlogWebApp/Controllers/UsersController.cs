@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +18,7 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // GET: Users
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
         
@@ -28,6 +26,7 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // GET: Users/Details/5
+        [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
             if (id == null || userService.GetAll()==null)
@@ -45,6 +44,7 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // GET: Users/Create
+        [HttpPost]
         public IActionResult Create()
         {
             ViewData["BlogId"] = new SelectList(blogService.GetAll(), "Id", "Id");
@@ -68,6 +68,7 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // GET: Users/Edit/5
+        [HttpPut]
         public async Task<IActionResult> Edit(int id)
         {
             if (id == null ||userService.GetAll() == null)
@@ -87,7 +88,7 @@ namespace TravelBlogWebApp.Controllers
         // POST: Users/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPut]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Username,Email,Password,ProfilePicturePath,BlogId,Id")] User user)
         {
@@ -120,6 +121,7 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // GET: Users/Delete/5
+        [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
             if (id == null || userService.GetAll() == null)
@@ -137,7 +139,7 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // POST: Users/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpDelete, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

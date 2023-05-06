@@ -1,8 +1,69 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<header>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="@Url.Content("~/Content/style.css")">
+</header>
+<body>
+<div class="container">
+    <main>
+        <div class="jumbotron jumbotron-fluid items-background">
+            <div class="container">
+                <h1 class="display-4">Welcome to my Travel Blog!</h1>
+                <p class="lead">Explore the world with me and discover new adventures.</p>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h2>Latest Blog Posts</h2>
+                    <div class="card-deck margins">
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src="@Url.Content("~/Content/Images/pic1.jpg")" height="200" alt="Danube in Serbia">
+                            <div class="card-body">
+                                <h5 class="card-title">Serbia along the Danube</h5>
+                                <p class="card-text">We crossed the border to Serbia. Here we drove by the Danube and we admired the spectacular view.</p>
+                                <a href="#" class="btn btn-dark">Read More</a>
+                            </div>
+                        </div>
+                        <div class="card" style="width: 18em;">
+                            <img class="card-img-top" src="images\alicante.jpg" height="200" alt="Alicante Castle">
+                            <div class="card-body">
+                                <h5 class="card-title">Alicante view from above</h5>
+                                <p class="card-text">Alicante is a tourist destination looking very exotic with palm trees and white beaches.</p>
+                                <br>
+                                <a href="alicante.html" class="btn btn-dark">Read More</a>
+                            </div>
+                        </div>
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src="images\thessaloniki.jpg" height="200" alt="Tower in Thessaloniki">
+                            <div class="card-body">
+                                <h5 class="card-title">Thessaloniki the second biggest city of Greece</h5>
+                                <p class="card-text">It's filled with a lot of history. There is also a great university and the sunsets are astonishing.</p>
+                                <a href="#" class="btn btn-dark">Read More</a>
+                            </div>
+                        </div>
+                    </div>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card background card-border">
+                        <div class="card-body">
+                            <h5 class="card-title">Popular Destinations</h5>
+                            <ul class="list-group links">
+                                <li class="list-group-item"><a class="dest" href="#">Rome, Italy</li>
+                                <li class="list-group-item"><a class="dest" href="alicante.html">Alicante, Spain</a></li>
+                                <li class="list-group-item"><a class="dest" href="#">Thessaloniki, Greece</a></li>
+                                <li class="list-group-item"><a class="dest" href="#">Bran, Romania</a></li>
+                                <li class="list-group-item"><a class="dest" href="#">Costinesti, Romania</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
 </div>
+</body>

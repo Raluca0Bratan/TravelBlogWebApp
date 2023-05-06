@@ -1,9 +1,10 @@
 ﻿using TravelBlogWebApp.Models;
 using TravelBlogWebApp.Repositories.Interfaces;
+using TravelBlogWebApp.ServicesFolder.Interfaces;
 
 namespace TravelBlogWebApp.ServicesFolder
 {
-    public class BlogService
+    public class BlogService:IBlogService
     {
         private readonly IBlogRepository repository;
 

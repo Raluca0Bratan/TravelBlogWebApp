@@ -60,6 +60,7 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // GET: Blogs/Edit/5
+        [HttpPut]
         public async Task<IActionResult> Edit(int id)
         {
             if (id == null || blogService.GetAll() == null)
@@ -78,7 +79,7 @@ namespace TravelBlogWebApp.Controllers
         // POST: Blogs/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPut]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Author,Name")] Blog blog)
         {
@@ -110,6 +111,7 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // GET: Blogs/Delete/5
+        [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
             if (id == null || blogService.GetAll() == null)
@@ -127,7 +129,7 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // POST: Blogs/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpDelete, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -147,6 +149,16 @@ namespace TravelBlogWebApp.Controllers
         private bool BlogExists(int id)
         {
             return (blogService.GetAll().Any(e => e.Id == id));
+        }
+
+        public IActionResult About()
+        {
+            return View();
+        }
+
+        public IActionResult Contact()
+        {
+            return View();
         }
     }
 }

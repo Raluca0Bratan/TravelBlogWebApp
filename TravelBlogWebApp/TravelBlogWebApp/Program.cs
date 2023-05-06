@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using TravelBlogWebApp.Models;
+using TravelBlogWebApp.Repositories;
+using TravelBlogWebApp.Repositories.Interfaces;
+using TravelBlogWebApp.ServicesFolder;
+using TravelBlogWebApp.ServicesFolder.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +11,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<TravelBlogDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("TravelBlogDb")));
+
+builder.Services.AddScoped<IBlogRepository, BlogRepository>();
+builder.Services.AddScoped<IDestinationRepository, DestinationRepository>();
+builder.Services.AddScoped<IPostRepository, PostRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IDestinationService, DestinationService>();
+builder.Services.AddScoped<IPostService, PostService>();
+builder.Services.AddScoped<IBlogService, BlogService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 

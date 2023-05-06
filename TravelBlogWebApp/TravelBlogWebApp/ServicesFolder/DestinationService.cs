@@ -1,10 +1,11 @@
-﻿using NuGet.Protocol.Core.Types;
+﻿
 using TravelBlogWebApp.Models;
 using TravelBlogWebApp.Repositories.Interfaces;
+using TravelBlogWebApp.ServicesFolder.Interfaces;
 
 namespace TravelBlogWebApp.ServicesFolder
 {
-    public class DestinationService
+    public class DestinationService:IDestinationService
     {
         private readonly IDestinationRepository repository;
 

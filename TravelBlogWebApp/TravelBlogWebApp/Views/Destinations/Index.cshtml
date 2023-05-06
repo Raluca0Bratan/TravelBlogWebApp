@@ -4,56 +4,51 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Travel Blog</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="Content/style.css">
+    <script src="javascript.js"></script>
+</head>
+<body class="black-background">
+    <br>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.City)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Country)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LikesNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Blog)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.City)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Country)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LikesNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Blog.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <div class="gallery">
+        <div class="containerOpacity">
+            <a href="alicante.html">
+                <img class="imageOpacity" src="images/alicante-dest.jpg">
+                <div class="middle">
+                    <div class="text-dest">Alicante</div>
+                </div>
+            </a>
+        </div>
+        <div class="containerOpacity">
+            <a href="#">
+                <img class="imageOpacity" src="images/costinesti.jpg">
+                <div class="middle">
+                    <div class="text-dest">Costinesti</div>
+                </div>
+            </a>
+        </div>
+        <div class="containerOpacity">
+            <a href="#">
+                <img class="imageOpacity" src="images/rome.jpg">
+                <div class="middle">
+                    <div class="text-dest">Rome</div>
+                </div>
+            </a>
+        </div>
+        <div class="containerOpacity">
+            <a href="#">
+                <img class="imageOpacity" src="images/calimanesti.jpg">
+                <div class="middle">
+                    <div class="text-dest">Calimanesti</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

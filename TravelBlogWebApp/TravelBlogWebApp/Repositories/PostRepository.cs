@@ -8,8 +8,8 @@ namespace TravelBlogWebApp.Repositories
     public class PostRepository : BaseRepository<Post>, IPostRepository
     {
         private readonly TravelBlogDbContext context;
-        private readonly UserRepository userRepository;
-        public PostRepository(TravelBlogDbContext context, UserRepository userRepository) : base(context)
+        private readonly IUserRepository userRepository;
+        public PostRepository(TravelBlogDbContext context, IUserRepository userRepository) : base(context)
         {
             this.userRepository = userRepository;
         }

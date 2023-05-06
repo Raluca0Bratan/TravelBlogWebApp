@@ -19,12 +19,14 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // GET: Destinations
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             return View(destinationService.GetAll());
         }
 
         // GET: Destinations/Details/5
+        [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
             if (id == null || destinationService.GetAll() == null)
@@ -42,6 +44,7 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // GET: Destinations/Create
+        [HttpPost]
         public IActionResult Create()
         {
             ViewData["BlogId"] = new SelectList(blogService.GetAll(), "Id", "Id");
@@ -65,6 +68,7 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // GET: Destinations/Edit/5
+        [HttpPut]
         public async Task<IActionResult> Edit(int id)
         {
             if (id == null || destinationService.GetAll == null)
@@ -84,7 +88,7 @@ namespace TravelBlogWebApp.Controllers
         // POST: Destinations/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPut]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("City,Country,Date,BlogId,LikesNumber,Id")] Destination destination)
         {
@@ -117,6 +121,7 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // GET: Destinations/Delete/5
+        [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
             if (id == null ||destinationService.GetAll() == null)
@@ -134,7 +139,7 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // POST: Destinations/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpDelete, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

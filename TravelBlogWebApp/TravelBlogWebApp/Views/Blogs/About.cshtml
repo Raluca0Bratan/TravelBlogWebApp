@@ -1,0 +1,45 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Travel Blog</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="blue-background">
+    <div style="text-align: center;">
+        <br>
+        <h3 class="about-text">My name is anonymous for now</h3>
+    </div>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <img class="card-img-top about-picture" src="images\eu2.jpg">
+                    <div class="card-body">
+                        <p class="card-text">
+                            I am 22 years old. I live in Craiova, Romania. And my hobby is obviously <b>traveling</b>.
+                            I am studying Computer Science, that is also one of my passions. I hope someday I can do both remote working and traveling at the same time.
+                            My dream destination is Maldive Islands. I hope I'll get the chance to post about that some day.
+                            <br>
+                            <div class="container mt-5">
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <a href="@Url.Action("Contact", "Blogs")">
+                                            <button class="btn btn-primary blue-background">Contact</button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
