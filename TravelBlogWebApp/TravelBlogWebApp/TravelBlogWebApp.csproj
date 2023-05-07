@@ -7,65 +7,24 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Content\Images\alicante-dest.jpg" />
-    <None Remove="Content\Images\alicante.jpg" />
-    <None Remove="Content\Images\alicante1.jpg" />
-    <None Remove="Content\Images\background-ocean2.jpg" />
-    <None Remove="Content\Images\calimanesti.jpg" />
-    <None Remove="Content\Images\costinesti.jpg" />
-    <None Remove="Content\Images\eu.jpg" />
-    <None Remove="Content\Images\eu2.jpg" />
-    <None Remove="Content\Images\lunch.jpg" />
-    <None Remove="Content\Images\pic1.jpg" />
-    <None Remove="Content\Images\plane.png" />
-    <None Remove="Content\Images\rome.jpg" />
-    <None Remove="Content\Images\thessaloniki.jpg" />
+    <None Remove="wwwroot\Images\alicante-dest.jpg" />
+    <None Remove="wwwroot\Images\alicante.jpg" />
+    <None Remove="wwwroot\Images\alicante1.jpg" />
+    <None Remove="wwwroot\Images\background-ocean2.jpg" />
+    <None Remove="wwwroot\Images\calimanesti.jpg" />
+    <None Remove="wwwroot\Images\costinesti.jpg" />
+    <None Remove="wwwroot\Images\eu.jpg" />
+    <None Remove="wwwroot\Images\eu2.jpg" />
+    <None Remove="wwwroot\Images\lunch.jpg" />
+    <None Remove="wwwroot\Images\pic1.jpg" />
+    <None Remove="wwwroot\Images\plane.png" />
+    <None Remove="wwwroot\Images\rome.jpg" />
+    <None Remove="wwwroot\Images\thessaloniki.jpg" />
     <None Remove="Content\style.css" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Content\Images\alicante-dest.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Images\alicante.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Images\alicante1.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Images\background-ocean2.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Images\calimanesti.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Images\costinesti.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Images\eu.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Images\eu2.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Images\lunch.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Images\pic1.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Images\plane.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Images\rome.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Images\thessaloniki.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\style.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <None Include="wwwroot\Images\placeholder.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -76,6 +35,55 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\css\style.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\alicante-dest.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\alicante.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\alicante1.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\background-ocean2.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\calimanesti.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\costinesti.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\eu.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\eu2.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\lunch.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\pic1.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\plane.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\rome.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Images\thessaloniki.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Content\" />
   </ItemGroup>
 
 </Project>
