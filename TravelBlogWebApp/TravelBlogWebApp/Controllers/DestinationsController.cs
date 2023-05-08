@@ -160,5 +160,46 @@ namespace TravelBlogWebApp.Controllers
         {
           return destinationService.GetAll().Any(d=>d.Id==id);
         }
+
+        //public IActionResult SearchedDestination(string searchString)
+        //{
+        //    var destinations = destinationService.GetAll();
+
+        //    if (!string.IsNullOrEmpty(searchString))
+        //    {
+        //        // Filter destinations based on the search string
+        //        destinations = destinations.Where(d =>
+        //            d.Country.Contains(searchString, StringComparison.OrdinalIgnoreCase)
+        //            || d.City.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        //            .ToList();
+        //    }
+
+        //    return View("Index",destinations);
+        //}
+        public async Task<IActionResult> Index(string searchString)
+        {
+            if (destinationService == null)
+            {
+                return Problem("Destination service is null.");
+            }
+
+            var destinations = destinationService.GetAll();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                destinations = destinations.Where(d =>
+                    d.Country.Contains(searchString, StringComparison.OrdinalIgnoreCase)
+                    || d.City.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+
+            return View(destinations);
+        }
+        [HttpPost]
+        public string Index(string searchString, bool notUsed)
+        {
+            return "From [HttpPost]Index: filter on " + searchString;
+        }
     }
-}
+    }
+

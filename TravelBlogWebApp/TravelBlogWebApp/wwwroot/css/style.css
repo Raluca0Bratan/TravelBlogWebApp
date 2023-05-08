@@ -233,7 +233,10 @@ margin-left:50px;
 }
 .bg-image-contact
 {
-  background-image: url("images/background-ocean2.jpg");
+  background-image: url("~\Images\background-ocean2.jpg");
   height: 100vh;
   background-size: cover;
 }
+
+
+

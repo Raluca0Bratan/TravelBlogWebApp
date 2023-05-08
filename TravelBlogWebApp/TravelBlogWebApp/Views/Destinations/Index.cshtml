@@ -10,18 +10,54 @@
     <meta charset="UTF-8">
     <title>Travel Blog</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css\style.css">
+    <link rel="stylesheet" href="\css\style.css">
     <script src="javascript.js"></script>
+    <style>
+        .search-form {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .search-input {
+            flex: 1;
+            margin-right: 5px;
+            margin-bottom: 99px;
+        }
+
+        .search-button {
+            flex: 0 0 auto;
+            margin-bottom:99px;
+        }
+
+    </style>
 </head>
 <body class="black-background">
     <br>
 
+    <div class="search-form">
+        @using (Html.BeginForm("SearchedDestination", "Destination", FormMethod.Get))
+        {
+            <div class="form-inline">
+                <div class="form-group">
+                    <input type="text" name="searchString" class="form-control search-input" />
+                </div>
+                <button type="submit" class="btn btn-primary search-button">Search</button>
+            </div>
+
+           
+        }
+    </div>
+
+    
+    </div>
     <div class="gallery">
         <div class="containerOpacity">
             <a href="alicante.html">
                 <img class="imageOpacity" src="images/alicante-dest.jpg">
                 <div class="middle">
-                    <div class="text-dest">Alicante</div>
+                    <div class="text-dest">Alicante, Spain</div>
                 </div>
             </a>
         </div>
@@ -29,7 +65,7 @@
             <a href="#">
                 <img class="imageOpacity" src="images/costinesti.jpg">
                 <div class="middle">
-                    <div class="text-dest">Costinesti</div>
+                    <div class="text-dest">Costinesti, Romania</div>
                 </div>
             </a>
         </div>
@@ -37,7 +73,7 @@
             <a href="#">
                 <img class="imageOpacity" src="images/rome.jpg">
                 <div class="middle">
-                    <div class="text-dest">Rome</div>
+                    <div class="text-dest">Rome, Italy</div>
                 </div>
             </a>
         </div>
@@ -45,10 +81,28 @@
             <a href="#">
                 <img class="imageOpacity" src="images/calimanesti.jpg">
                 <div class="middle">
-                    <div class="text-dest">Calimanesti</div>
+                    <div class="text-dest">Calimanesti, Romania</div>
                 </div>
             </a>
         </div>
+
+        @if (Model.Any())
+        {
+
+            @foreach (var destination in Model)
+            {
+                <div class="containerOpacity">
+                    <a href="#">
+                        <img class="imageOpacity" src="images/placeholder.jpg">
+                        <div class="middle">
+                            <div class="text-dest">@destination.City, @destination.Country</div>
+                        </div>
+                    </a>
+                </div>
+
+            }
+
+        }
     </div>
 </body>
 </html>
