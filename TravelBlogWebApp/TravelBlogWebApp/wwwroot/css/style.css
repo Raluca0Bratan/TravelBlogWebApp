@@ -24,7 +24,7 @@
     text-align: center;
     padding: 12px 28px;
 }
-.background
+.background-home
 {
  background-color: rgb(158, 189, 235);
 }
@@ -47,15 +47,15 @@
   font-weight: 200;
   font-family: sans-serif;
 }
-/* unvisited link */
+ unvisited link 
 a.dest:link {
     color: rgb(0, 0, 0);
   }
-  /* visited link */
+   visited link 
 a.dest:visited {
     color: rgb(0, 0, 0);
   }
-  /* mouse over link */
+   mouse over link 
   a.dest:hover {
     color: rgb(158, 189, 235);
     text-decoration: none;
@@ -63,44 +63,44 @@ a.dest:visited {
 
 * { box-sizing: border-box; }
  
-/* (B) GALLERY WRAPPER */
+ (B) GALLERY WRAPPER 
 .gallery {
-  /* (B1) GRID LAYOUT - 3 IMAGES PER ROW */
+   (B1) GRID LAYOUT - 3 IMAGES PER ROW 
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 20px;
  
-  /* (B2) OPTIONAL WIDTH RESTRICT */
+   (B2) OPTIONAL WIDTH RESTRICT 
   max-width: 1000px;
   margin: 0 auto;
   overflow: hidden;
 }
-/* (C) GALLERY IMAGES */
+ (C) GALLERY IMAGES 
 .gallery img {
-  /* (C1) DIMENSION */
+   (C1) DIMENSION 
   width: 100%;
  
   padding: 10px;
  
-  /* (C2) COLORS */
+   (C2) COLORS 
   background: none;
  
-  /* (C3) IMAGE RESIZE */
-  /* cover | contain | fill | scale-down */
+   (C3) IMAGE RESIZE 
+   cover | contain | fill | scale-down 
   object-fit: contain;
   position: relative;
 }
-/* (D) ON SMALL SCREENS - 2 IMAGES PER ROW */
+ (D) ON SMALL SCREENS - 2 IMAGES PER ROW 
 @media only screen and (max-width: 600px) {
   .gallery {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-/* (E) OPTIONAL ZOOM ON HOVER */
+ (E) OPTIONAL ZOOM ON HOVER 
 .gallery img:hover {
   z-index: 9;
   transform: scale(1.3);
-  /* linear | ease | ease-in | ease-out | ease-in-out */
+   linear | ease | ease-in | ease-out | ease-in-out 
   transition: transform ease 0.5s;
 }
 .containerOpacity {
@@ -114,11 +114,11 @@ a.dest:visited {
  
   padding: 10px;
  
-  /* (C2) COLORS */
+   (C2) COLORS 
   background: #060505;
  
-  /* (C3) IMAGE RESIZE */
-  /* cover | contain | fill | scale-down */
+   (C3) IMAGE RESIZE 
+   cover | contain | fill | scale-down 
   object-fit: contain;
   position: relative;
 }

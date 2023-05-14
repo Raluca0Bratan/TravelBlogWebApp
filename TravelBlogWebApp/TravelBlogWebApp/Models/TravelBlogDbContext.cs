@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace TravelBlogWebApp.Models
 {
-    public class TravelBlogDbContext : DbContext
+    public class TravelBlogDbContext : IdentityDbContext<IdentityUser>
     {
         public TravelBlogDbContext(DbContextOptions<TravelBlogDbContext> options)
             : base(options) { }
