@@ -31,6 +31,75 @@
             margin-bottom:99px;
         }
 
+        /* (B) GALLERY WRAPPER */
+        .gallery {
+            /* (B1) GRID LAYOUT - 3 IMAGES PER ROW */
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 20px;
+            /* (B2) OPTIONAL WIDTH RESTRICT */
+            max-width: 1000px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        /* (C) GALLERY IMAGES */
+        .gallery img {
+            /* (C1) DIMENSION */
+            width: 100%;
+            padding: 10px;
+            /* (C2) COLORS */
+            background: none;
+            /* (C3) IMAGE RESIZE */
+            /* cover | contain | fill | scale-down */
+            object-fit: contain;
+            position: relative;
+        }
+            /* (D) ON SMALL SCREENS - 2 IMAGES PER ROW */
+
+            /* (E) OPTIONAL ZOOM ON HOVER */
+            .gallery img:hover {
+                z-index: 9;
+                transform: scale(1.3);
+                /* linear | ease | ease-in | ease-out | ease-in-out */
+                transition: transform ease 0.5s;
+            }
+
+        .containerOpacity {
+            position: relative;
+            width: 100%;
+        }
+
+        .imageOpacity {
+            opacity: 1;
+            width: 100%;
+            padding: 10px;
+            /* (C2) COLORS */
+            background: #060505;
+            /* (C3) IMAGE RESIZE */
+            /* cover | contain | fill | scale-down */
+            object-fit: contain;
+            position: relative;
+        }
+
+        .middle {
+            transition: .5s ease;
+            opacity: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .containerOpacity:hover .imageOpacity {
+            opacity: 0.3;
+        }
+
+        .containerOpacity:hover .middle {
+            opacity: 1;
+        }
+   
     </style>
 </head>
 <body class="black-background">
@@ -54,10 +123,10 @@
     </div>
     <div class="gallery">
         <div class="containerOpacity">
-            <a href="alicante.html">
+            <a asp-area="" asp-controller="Destinations" asp-action="Alicante">
                 <img class="imageOpacity" src="images/alicante-dest.jpg">
                 <div class="middle">
-                    <div class="text-dest">Alicante, Spain</div>
+                    <div class="text-dest">Alicante</div>
                 </div>
             </a>
         </div>
@@ -65,7 +134,7 @@
             <a href="#">
                 <img class="imageOpacity" src="images/costinesti.jpg">
                 <div class="middle">
-                    <div class="text-dest">Costinesti, Romania</div>
+                    <div class="text-dest">Costinesti</div>
                 </div>
             </a>
         </div>
@@ -73,7 +142,7 @@
             <a href="#">
                 <img class="imageOpacity" src="images/rome.jpg">
                 <div class="middle">
-                    <div class="text-dest">Rome, Italy</div>
+                    <div class="text-dest">Rome</div>
                 </div>
             </a>
         </div>
@@ -81,7 +150,7 @@
             <a href="#">
                 <img class="imageOpacity" src="images/calimanesti.jpg">
                 <div class="middle">
-                    <div class="text-dest">Calimanesti, Romania</div>
+                    <div class="text-dest">Calimanesti</div>
                 </div>
             </a>
         </div>

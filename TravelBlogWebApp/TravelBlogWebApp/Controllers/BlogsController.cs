@@ -160,5 +160,9 @@ namespace TravelBlogWebApp.Controllers
         {
             return View();
         }
+        public IActionResult TravelTips()
+        {
+            return View();
+        }
     }
 }

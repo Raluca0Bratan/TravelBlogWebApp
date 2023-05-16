@@ -200,6 +200,11 @@ namespace TravelBlogWebApp.Controllers
         {
             return "From [HttpPost]Index: filter on " + searchString;
         }
+
+        public IActionResult Alicante()
+        {
+            return View();
+        }
     }
     }
 
