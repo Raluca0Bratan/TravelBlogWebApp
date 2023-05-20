@@ -1,8 +1,8 @@
 ﻿namespace TravelBlogWebApp.Models
 {
-    public class Post:ModelEntity
+    public class Post
     {
-
+        public int Id { get; set; } 
         public string Title { get; set; }
 
         public DateTime DateTime { get; set; }

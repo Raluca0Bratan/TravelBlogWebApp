@@ -1,8 +1,10 @@
-﻿namespace TravelBlogWebApp.Models
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace TravelBlogWebApp.Models
 {
-    public class User:ModelEntity
+    public class User:IdentityUser
     {
-        
+        public int Id { get; set; } 
         public string Username { get; set; }
         public string Email { get; set; }
 

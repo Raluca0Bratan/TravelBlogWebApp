@@ -12,15 +12,5 @@ namespace TravelBlogWebApp.Repositories
             this.context = context;
         }
 
-        public Blog GetBlogWithDestinationsAndPosts(int id)
-        {
-            return this.context.Set<Blog>()
-                .Where(b=>b.Id==id)
-                .Include(b=>b.Destinations)
-                .Include(b => b.Posts)
-                .ThenInclude(p => p.Sections)
-                .FirstOrDefault(); 
-        }
-
     }
 }

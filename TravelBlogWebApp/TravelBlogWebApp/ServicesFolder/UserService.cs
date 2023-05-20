@@ -1,4 +1,6 @@
-﻿using TravelBlogWebApp.Models;
+﻿using System.Linq.Expressions;
+using TravelBlogWebApp.Models;
+using TravelBlogWebApp.Repositories;
 using TravelBlogWebApp.Repositories.Interfaces;
 using TravelBlogWebApp.ServicesFolder.Interfaces;
 
@@ -6,36 +8,13 @@ namespace TravelBlogWebApp.ServicesFolder
 {
     public class UserService:IUserService
     {
-        private readonly IUserRepository repository;
+        private readonly RepositoryWrapper repositoryWrapper;
 
-        public UserService(IUserRepository repository)
+        public UserService(RepositoryWrapper repository)
         {
-            this.repository = repository;
+            this.repositoryWrapper = repository;
         }
 
-        public void Add(User entity)
-        {
-            repository.Add(entity);
-        }
-
-        public void Delete(User entity)
-        {
-            repository.Delete(entity);
-        }
-
-        public IEnumerable<User> GetAll()
-        {
-            return repository.GetAll();
-        }
-
-        public User GetById(int id)
-        {
-            return repository.GetById(id);
-        }
-
-        public void Update(User entity)
-        {
-            repository.Update(entity);
-        }
+      
     }
 }

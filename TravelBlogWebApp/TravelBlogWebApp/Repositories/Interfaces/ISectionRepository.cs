@@ -2,8 +2,7 @@
 
 namespace TravelBlogWebApp.Repositories.Interfaces
 {
-    public interface IPostRepository:IBaseRepository<Post>
+    public interface ISectionRepository:IBaseRepository<Section>
     {
-       
     }
 }

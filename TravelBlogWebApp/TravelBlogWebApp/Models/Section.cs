@@ -1,7 +1,8 @@
 ﻿namespace TravelBlogWebApp.Models
 {
-    public class Section:ModelEntity
+    public class Section
     {
+        public int Id { get; set; }
         public string Title { get; set; }
 
         public string Content { get; set; }

@@ -1,16 +1,14 @@
-﻿namespace TravelBlogWebApp.Repositories.Interfaces
+﻿using System.Linq.Expressions;
+
+namespace TravelBlogWebApp.Repositories.Interfaces
 {
     public interface IBaseRepository<T>
     {
-        public IEnumerable<T> GetAll();
+        IQueryable<T> FindAll();
+        IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression);
+        void Create(T entity);
+        void Update(T entity);
+        void Delete(T entity);
 
-        public T GetById (int id);  
-
-        public void Add (T entity);
-
-        public void Update (T entity);  
-
-        public void Delete (T entity);  
-        
     }
 }
