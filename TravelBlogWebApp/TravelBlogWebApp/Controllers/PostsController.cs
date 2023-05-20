@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -49,7 +50,9 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // GET: Posts/Create
+        [Authorize(Roles = "Administrator")]
         public IActionResult Create()
+
         {
             ViewData["BlogId"] = new SelectList(_context.Blogs, "Id", "Id");
             return View();
@@ -60,6 +63,7 @@ namespace TravelBlogWebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create([Bind("Id,Title,DateTime,LikesNumber,BlogId")] Post post)
         {
             if (ModelState.IsValid)
@@ -73,6 +77,7 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // GET: Posts/Edit/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Posts == null)
@@ -94,6 +99,7 @@ namespace TravelBlogWebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,DateTime,LikesNumber,BlogId")] Post post)
         {
             if (id != post.Id)
@@ -126,6 +132,7 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // GET: Posts/Delete/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Posts == null)
@@ -145,6 +152,7 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // POST: Posts/Delete/5
+        [Authorize(Roles ="Administrator")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -170,6 +178,7 @@ namespace TravelBlogWebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles ="User")]
         public IActionResult AddComment(int postId, string content)
         {
             var post = postService.GetPostWithSectionsAndComments(postId);
@@ -197,6 +206,7 @@ namespace TravelBlogWebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles ="Administrator")]
         public IActionResult AddSection(int postId, string content, string title, IFormFile image)
         {
             var post = postService.GetPostWithSectionsAndComments(postId);

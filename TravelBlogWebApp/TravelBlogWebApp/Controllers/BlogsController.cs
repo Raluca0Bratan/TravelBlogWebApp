@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TravelBlogWebApp.Models;
@@ -57,6 +58,8 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // GET: Blogs1/Create
+
+        [Authorize(Roles ="Administrator")]
         public IActionResult Create()
         {
             return View();
@@ -67,6 +70,7 @@ namespace TravelBlogWebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create([Bind("Id,Author,Name")] Blog blog)
         {
             if (ModelState.IsValid)
@@ -79,6 +83,7 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // GET: Blogs1/Edit/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Blogs == null)
@@ -99,6 +104,7 @@ namespace TravelBlogWebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Author,Name")] Blog blog)
         {
             if (id != blog.Id)
@@ -130,6 +136,7 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // GET: Blogs1/Delete/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Blogs == null)
@@ -150,6 +157,7 @@ namespace TravelBlogWebApp.Controllers
         // POST: Blogs1/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Blogs == null)

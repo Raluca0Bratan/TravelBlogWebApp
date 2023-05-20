@@ -1,7 +1,9 @@
 ﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using TravelBlogWebApp.Models;
 using TravelBlogWebApp.ServicesFolder;
 using TravelBlogWebApp.ServicesFolder.Interfaces;
@@ -28,6 +30,7 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // GET: Sections/Details/5
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Sections == null)
@@ -47,6 +50,7 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // GET: Sections/Create
+        [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
             ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Id");
@@ -58,6 +62,7 @@ namespace TravelBlogWebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create([Bind("Id,Title,Content,ImagePath,PostId")] Section section)
         {
             if (ModelState.IsValid)
@@ -71,6 +76,7 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // GET: Sections/Edit/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int? sectionId)
         {
             if (sectionId == null )
@@ -92,6 +98,7 @@ namespace TravelBlogWebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int sectionId, [Bind("Id,Title,Content,ImagePath,PostId")] Section section)
         {
             if (sectionId != section.Id)
@@ -124,6 +131,7 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // GET: Sections/Delete/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int? sectionId)
         {
             if (sectionId == null || sectionService.FindAll() == null)
@@ -141,6 +149,7 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // POST: Sections/Delete/5
+        [Authorize(Roles = "Administrator")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

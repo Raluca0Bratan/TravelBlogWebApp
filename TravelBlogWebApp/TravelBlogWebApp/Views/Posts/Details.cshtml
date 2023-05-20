@@ -1,5 +1,5 @@
 ﻿@model TravelBlogWebApp.Models.Post
-
+@using Microsoft.AspNetCore.Identity
 
 <style>
     .card {
@@ -85,7 +85,10 @@
 </div>
 
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Edit</a>
+    @if (User.IsInRole("Administrator"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Edit</a>
+    }
     <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </div>
 
@@ -103,11 +106,13 @@
             {
                 <img src="section.ImagePath" alt="Section Image" />
             }
-
-            <div class="btn-group">
-                <a href="@Url.Action("Edit", "Sections", new { sectionId = section.Id })" class="btn btn btn-primary">Edit Section</a>
-                <a href="@Url.Action("Delete", "Sections", new { sectionId = section.Id })" class="btn btn-danger">Delete Section</a>
-            </div>
+            @if (User.IsInRole("Administrator"))
+            {
+                <div class="btn-group">
+                    <a href="@Url.Action("Edit", "Sections", new { sectionId = section.Id })" class="btn btn btn-primary">Edit Section</a>
+                    <a href="@Url.Action("Delete", "Sections", new { sectionId = section.Id })" class="btn btn-danger">Delete Section</a>
+                </div>
+            }
         </div>
         <hr />
     }
@@ -129,10 +134,18 @@ else
             <p>@*<strong>@comment.User.UserName</strong>*@ commented on @comment.DateTime:</p>
             <p>@comment.Content</p>
 
+
             <div class="btn-group">
-                <a href="@Url.Action("Edit", "Comments", new { commentId = comment.Id })" class="btn btn-primary">Edit Comment</a>
-                <a href="@Url.Action("Delete", "Comments", new { commentId = comment.Id })" class="btn btn-danger">Delete Comment</a>
+                @if (User.IsInRole("User"))
+                {
+                    <a href="@Url.Action("Edit", "Comments", new { commentId = comment.Id })" class="btn btn-primary">Edit Comment</a>
+                }
+                @if (User.IsInRole("Administrator"))
+                {
+                    <a href="@Url.Action("Delete", "Comments", new { commentId = comment.Id })" class="btn btn-danger">Delete Comment</a>
+                }
             </div>
+
         </div>
         <hr />
 
@@ -145,46 +158,52 @@ else
 
 
 <hr />
+@if (User.IsInRole("Administrator"))
+{
+    <h4>Add a Section</h4>
+    <div class="add-section-form">
+        @using (Html.BeginForm("AddSection", "Posts", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
 
-<h4>Add a Section</h4>
-<div class="add-section-form">
-    @using (Html.BeginForm("AddSection", "Posts", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-        @Html.AntiForgeryToken()
+            @Html.Hidden("postId", Model.Id)
 
-        @Html.Hidden("postId", Model.Id)
+            <div class="form-group">
+                @Html.Label("Title")
+                @Html.TextBox("title", null, new { @class = "form-control" })
+            </div>
 
-        <div class="form-group">
-            @Html.Label("Title")
-            @Html.TextBox("title", null, new { @class = "form-control" })
-        </div>
+            <div class="form-group">
+                @Html.Label("Content")
+                @Html.TextArea("content", null, new { @class = "form-control", rows = "4" })
+            </div>
 
-        <div class="form-group">
-            @Html.Label("Content")
-            @Html.TextArea("content", null, new { @class = "form-control", rows = "4" })
-        </div>
+            <div class="form-group">
+                @Html.Label("Image")
+                @Html.TextBox("image", null, new { type = "file", @class = "form-control-file" })
+            </div>
 
-        <div class="form-group">
-            @Html.Label("Image")
-            @Html.TextBox("image", null, new { type = "file", @class = "form-control-file" })
-        </div>
+            <button type="submit" class="btn btn-primary submit-btn">Submit</button>
+        }
 
-        <button type="submit" class="btn btn-primary submit-btn">Submit</button>
-    }
-</div>
+    </div>
+}
 
-<h4>Add a Comment</h4>
-<div class="add-comment-form">
-    @using (Html.BeginForm("AddComment", "Posts", FormMethod.Post))
-    {
-        @Html.AntiForgeryToken()
+@if (User.IsInRole("User"))
+{
+    <h4>Add a Comment</h4>
+    <div class="add-comment-form">
+        @using (Html.BeginForm("AddComment", "Posts", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
 
-        @Html.Hidden("postId", Model.Id)
+            @Html.Hidden("postId", Model.Id)
 
-        <div class="form-group">
-            @Html.TextArea("content", null, new { @class = "form-control", rows = "4" })
-        </div>
+            <div class="form-group">
+                @Html.TextArea("content", null, new { @class = "form-control", rows = "4" })
+            </div>
 
-        <button type="submit" class="btn btn-primary submit-btn">Submit</button>
-    }
-</div>
+            <button type="submit" class="btn btn-primary submit-btn">Submit</button>
+        }
+    </div>
+}

@@ -105,20 +105,26 @@
 <body class="black-background">
     <br>
 
-    <div class="search-form">
-        @using (Html.BeginForm("SearchedDestination", "Destination", FormMethod.Get))
+    @*<div class="search-form">
+        @using (Html.BeginForm("Search", "Destination", FormMethod.Get))
         {
-            <div class="form-inline">
-                <div class="form-group">
-                    <input type="text" name="searchString" class="form-control search-input" />
-                </div>
-                <button type="submit" class="btn btn-primary search-button">Search</button>
+                <div class="input-group">
+                <input type="text" name="searchString" class="form-control" placeholder="Search by city or country" />
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit">Search</button>
+                </span>
             </div>
 
            
         }
+        <form asp-controller="Destinations" asp-action="Search" method="get">
+            <p>
+                Search: <input type="text" name="searchString" />
+                <input type="submit" value="Filter" />
+            </p>
+        </form>
     </div>
-
+*@
     
     </div>
     <div class="gallery">
