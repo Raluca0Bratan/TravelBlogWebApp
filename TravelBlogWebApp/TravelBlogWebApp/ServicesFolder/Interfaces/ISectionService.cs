@@ -15,5 +15,8 @@ namespace TravelBlogWebApp.ServicesFolder.Interfaces
 
 
         public void Delete(Section entity);
+
+        public IQueryable<Section> FindByCondition(Expression<Func<Section, bool>> expression);
+      
     }
 }

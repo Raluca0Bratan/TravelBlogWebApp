@@ -1,21 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TravelBlogWebApp.Models;
+using TravelBlogWebApp.ServicesFolder;
+using TravelBlogWebApp.ServicesFolder.Interfaces;
 
 namespace TravelBlogWebApp.Controllers
 {
     public class SectionsController : Controller
     {
         private readonly TravelBlogDbContext _context;
+        private readonly ISectionService sectionService;
 
-        public SectionsController(TravelBlogDbContext context)
+
+        public SectionsController(TravelBlogDbContext context,ISectionService sectionService)
         {
             _context = context;
+            this.sectionService = sectionService;
         }
 
         // GET: Sections
@@ -69,14 +71,14 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // GET: Sections/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? sectionId)
         {
-            if (id == null || _context.Sections == null)
+            if (sectionId == null )
             {
                 return NotFound();
             }
 
-            var section = await _context.Sections.FindAsync(id);
+            var section = sectionService.FindByCondition(s => s.Id == sectionId).FirstOrDefault();
             if (section == null)
             {
                 return NotFound();
@@ -90,9 +92,9 @@ namespace TravelBlogWebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Content,ImagePath,PostId")] Section section)
+        public async Task<IActionResult> Edit(int sectionId, [Bind("Id,Title,Content,ImagePath,PostId")] Section section)
         {
-            if (id != section.Id)
+            if (sectionId != section.Id)
             {
                 return NotFound();
             }
@@ -101,8 +103,8 @@ namespace TravelBlogWebApp.Controllers
             {
                 try
                 {
-                    _context.Update(section);
-                    await _context.SaveChangesAsync();
+                    sectionService.Update(section);
+                   
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -122,16 +124,14 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // GET: Sections/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? sectionId)
         {
-            if (id == null || _context.Sections == null)
+            if (sectionId == null || sectionService.FindAll() == null)
             {
                 return NotFound();
             }
 
-            var section = await _context.Sections
-                .Include(s => s.Post)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var section = sectionService.FindByCondition(s=>s.Id == sectionId).FirstOrDefault();
             if (section == null)
             {
                 return NotFound();
@@ -145,17 +145,13 @@ namespace TravelBlogWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Sections == null)
+            if (sectionService.FindAll() == null)
             {
                 return Problem("Entity set 'TravelBlogDbContext.Sections'  is null.");
             }
-            var section = await _context.Sections.FindAsync(id);
-            if (section != null)
-            {
-                _context.Sections.Remove(section);
-            }
+            var section = sectionService.FindByCondition(s=> s.Id == id).FirstOrDefault();  
+            sectionService.Delete(section);
             
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

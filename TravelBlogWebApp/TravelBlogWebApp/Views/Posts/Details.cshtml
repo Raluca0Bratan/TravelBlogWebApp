@@ -1,4 +1,5 @@
-﻿@model TravelBlogWebApp.Models.Post
+﻿
+@model TravelBlogWebApp.Models.Post
 
 @{
     ViewData["Title"] = "Details";
@@ -43,8 +44,62 @@
 
 <hr />
 
+<h3>Sections</h3>
+@if (Model.Sections != null && Model.Sections.Count > 0)
+{
+    foreach (var section in Model.Sections)
+    {
+        <div>
+            <h5>@Html.DisplayFor(modelItem => section.Title)</h5>
+            <p>@Html.DisplayFor(modelItem => section.Content)</p>
+
+            @if (!string.IsNullOrEmpty(section.ImagePath))
+            {
+                <img src="section.ImagePath" alt="Section Image" />
+            }
+        </div>
+        <div>
+            <a href="@Url.Action("Edit", "Sections", new { sectionId = section.Id })" class="btn btn-primary">Edit Section</a>
+            <a href="@Url.Action("Delete", "Sections", new { sectionId = section.Id })" class="btn btn-danger">Delete Section</a>
+        </div>
+        <hr />
+    }
+}
+else
+{
+    <p>No sections available.</p>
+}
+
+<hr />
+
+<!-- Display comments -->
+<h3>Comments</h3>
+@if (Model.Comments != null && Model.Comments.Count > 0)
+{
+    foreach (var comment in Model.Comments)
+    {
+        <div>
+            <p>@*<strong>@comment.User.UserName</strong>*@ commented on @comment.DateTime:</p>
+            <p>@comment.Content</p>
+        </div>
+        <div>
+            <a href="@Url.Action("Edit", "Comments", new { commentId = comment.Id })" class="btn btn-primary">Edit Comment</a>
+            <a href="@Url.Action("Delete", "Comments", new { commentId = comment.Id })" class="btn btn-danger">Delete Comment</a>
+        </div>
+        <hr />
+
+    }
+}
+else
+{
+    <p>No comments available.</p>
+}
+
+
+<hr />
+
 <h4>Add a Section</h4>
-@using (Html.BeginForm("AddSection", "Post", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("AddSection", "Posts", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -69,7 +124,7 @@
 }
 
 <h4>Add a Comment</h4>
-@using (Html.BeginForm("AddComment", "Post", FormMethod.Post))
+@using (Html.BeginForm("AddComment", "Posts", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 

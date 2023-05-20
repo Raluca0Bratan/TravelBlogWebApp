@@ -15,6 +15,7 @@ namespace TravelBlogWebApp.Controllers
     {
         private readonly TravelBlogDbContext _context;
         private readonly IPostService postService;
+        private readonly ICommentService commentService;
      
 
         public PostsController(TravelBlogDbContext context,IPostService postService)

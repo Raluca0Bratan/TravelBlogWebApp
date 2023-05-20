@@ -62,5 +62,6 @@ namespace TravelBlogWebApp.ServicesFolder
             repositoryWrapper.PostRepository.AddSectionToPost(postId, section);
             repositoryWrapper.Save();
         }
+
     }
 }

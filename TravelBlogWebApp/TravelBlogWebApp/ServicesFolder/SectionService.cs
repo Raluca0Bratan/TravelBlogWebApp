@@ -1,4 +1,5 @@
-﻿using TravelBlogWebApp.Models;
+﻿using System.Linq.Expressions;
+using TravelBlogWebApp.Models;
 using TravelBlogWebApp.Repositories;
 using TravelBlogWebApp.ServicesFolder.Interfaces;
 
@@ -38,6 +39,12 @@ namespace TravelBlogWebApp.ServicesFolder
         {
             repositoryWrapper.SectionRepository.Delete(entity);
             repositoryWrapper.Save();
+        }
+
+        public IQueryable<Section> FindByCondition(Expression<Func<Section, bool>> expression)
+        {
+            return repositoryWrapper.SectionRepository.FindByCondition(expression);
+
         }
     }
 

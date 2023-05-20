@@ -6,16 +6,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TravelBlogWebApp.Models;
+using TravelBlogWebApp.ServicesFolder.Interfaces;
 
 namespace TravelBlogWebApp.Controllers
 {
     public class CommentsController : Controller
     {
         private readonly TravelBlogDbContext _context;
+        private readonly ICommentService commentService;
 
-        public CommentsController(TravelBlogDbContext context)
+        public CommentsController(TravelBlogDbContext context, ICommentService commentService)
         {
             _context = context;
+            this.commentService = commentService;   
         }
 
         // GET: Comments
@@ -26,16 +29,14 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // GET: Comments/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? commentId)
         {
-            if (id == null || _context.Comments == null)
+            if (commentId == null || commentService.FindAll() == null)
             {
                 return NotFound();
             }
 
-            var comment = await _context.Comments
-                .Include(c => c.Post)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var comment = commentService.FindByCondition(c=>c.Id== commentId).FirstOrDefault();  
             if (comment == null)
             {
                 return NotFound();
@@ -69,14 +70,14 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // GET: Comments/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? commentId)
         {
-            if (id == null || _context.Comments == null)
+            if (commentId == null || commentService.FindAll() == null)
             {
                 return NotFound();
             }
 
-            var comment = await _context.Comments.FindAsync(id);
+            var comment = commentService.FindByCondition(c=> c.Id== commentId).FirstOrDefault();    
             if (comment == null)
             {
                 return NotFound();
@@ -92,17 +93,17 @@ namespace TravelBlogWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,PostId,DateTime,Content")] Comment comment)
         {
-            if (id != comment.Id)
-            {
-                return NotFound();
-            }
+            //if (id != comment.Id)
+            //{
+            //    return NotFound();
+            //}
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(comment);
-                    await _context.SaveChangesAsync();
+                    commentService.Update(comment);
+                 
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -122,16 +123,14 @@ namespace TravelBlogWebApp.Controllers
         }
 
         // GET: Comments/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? commentId)
         {
-            if (id == null || _context.Comments == null)
+            if (commentId == null || commentService.FindAll() == null)
             {
                 return NotFound();
             }
 
-            var comment = await _context.Comments
-                .Include(c => c.Post)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var comment = commentService.FindByCondition(c=>c.Id == commentId).FirstOrDefault(); 
             if (comment == null)
             {
                 return NotFound();
@@ -145,17 +144,16 @@ namespace TravelBlogWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Comments == null)
+            if (commentService.FindAll() == null)
             {
                 return Problem("Entity set 'TravelBlogDbContext.Comments'  is null.");
             }
-            var comment = await _context.Comments.FindAsync(id);
+            var comment = commentService.FindByCondition(c=>c.Id==id).FirstOrDefault();  
             if (comment != null)
             {
-                _context.Comments.Remove(comment);
+                commentService.Delete(comment);
             }
-            
-            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
