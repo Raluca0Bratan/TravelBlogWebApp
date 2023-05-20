@@ -1,66 +1,113 @@
-﻿
-@model TravelBlogWebApp.Models.Post
+﻿@model TravelBlogWebApp.Models.Post
 
-@{
-    ViewData["Title"] = "Details";
-}
 
-<h1>Details</h1>
+<style>
+    .card {
+        border: none;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        margin-bottom: 20px;
+    }
 
-<div>
-    <h4>Post</h4>
+    .card-title {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .card-text {
+        font-size: 14px;
+        color: #555;
+    }
+
+    .btn-group {
+        margin-top: 15px;
+    }
+
+    .btn-primary,
+    .btn-secondary,
+    .btn-danger {
+        margin-right: 5px;
+    }
+
+    hr {
+        margin-top: 30px;
+        margin-bottom: 30px;
+        border: 0;
+        border-top: 1px solid #eee;
+    }
+
+    .add-section-form,
+    .add-comment-form {
+        margin-top: 30px;
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 5px;
+    }
+
+    .form-group label {
+        font-weight: bold;
+    }
+
+    .form-control-file {
+        padding-top: 4px;
+    }
+
+    .submit-btn {
+        margin-top: 10px;
+    }
+</style>
+
+
+<div class="card">
+    <h4>@Html.DisplayNameFor(model => model.Title)</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.DateTime)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.DateTime)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.LikesNumber)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.LikesNumber)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Blog)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Blog.Id)
         </dd>
     </dl>
 </div>
+
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Edit</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </div>
 
 <hr />
 
-<h3>Sections</h3>
 @if (Model.Sections != null && Model.Sections.Count > 0)
 {
     foreach (var section in Model.Sections)
     {
-        <div>
-            <h5>@Html.DisplayFor(modelItem => section.Title)</h5>
-            <p>@Html.DisplayFor(modelItem => section.Content)</p>
+        <div class="card">
+            <h5 class="card-title">@Html.DisplayFor(modelItem => section.Title)</h5>
+            <p class="card-text">@Html.DisplayFor(modelItem => section.Content)</p>
 
             @if (!string.IsNullOrEmpty(section.ImagePath))
             {
                 <img src="section.ImagePath" alt="Section Image" />
             }
-        </div>
-        <div>
-            <a href="@Url.Action("Edit", "Sections", new { sectionId = section.Id })" class="btn btn-primary">Edit Section</a>
-            <a href="@Url.Action("Delete", "Sections", new { sectionId = section.Id })" class="btn btn-danger">Delete Section</a>
+
+            <div class="btn-group">
+                <a href="@Url.Action("Edit", "Sections", new { sectionId = section.Id })" class="btn btn btn-primary">Edit Section</a>
+                <a href="@Url.Action("Delete", "Sections", new { sectionId = section.Id })" class="btn btn-danger">Delete Section</a>
+            </div>
         </div>
         <hr />
     }
@@ -78,13 +125,14 @@ else
 {
     foreach (var comment in Model.Comments)
     {
-        <div>
+        <div class="card">
             <p>@*<strong>@comment.User.UserName</strong>*@ commented on @comment.DateTime:</p>
             <p>@comment.Content</p>
-        </div>
-        <div>
-            <a href="@Url.Action("Edit", "Comments", new { commentId = comment.Id })" class="btn btn-primary">Edit Comment</a>
-            <a href="@Url.Action("Delete", "Comments", new { commentId = comment.Id })" class="btn btn-danger">Delete Comment</a>
+
+            <div class="btn-group">
+                <a href="@Url.Action("Edit", "Comments", new { commentId = comment.Id })" class="btn btn-primary">Edit Comment</a>
+                <a href="@Url.Action("Delete", "Comments", new { commentId = comment.Id })" class="btn btn-danger">Delete Comment</a>
+            </div>
         </div>
         <hr />
 
@@ -99,40 +147,44 @@ else
 <hr />
 
 <h4>Add a Section</h4>
-@using (Html.BeginForm("AddSection", "Posts", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    @Html.AntiForgeryToken()
+<div class="add-section-form">
+    @using (Html.BeginForm("AddSection", "Posts", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
 
-    @Html.Hidden("postId", Model.Id)
+        @Html.Hidden("postId", Model.Id)
 
-    <div class="form-group">
-        @Html.Label("Title")
-        @Html.TextBox("title", null, new { @class = "form-control" })
-    </div>
+        <div class="form-group">
+            @Html.Label("Title")
+            @Html.TextBox("title", null, new { @class = "form-control" })
+        </div>
 
-    <div class="form-group">
-        @Html.Label("Content")
-        @Html.TextArea("content", null, new { @class = "form-control", rows = "4" })
-    </div>
+        <div class="form-group">
+            @Html.Label("Content")
+            @Html.TextArea("content", null, new { @class = "form-control", rows = "4" })
+        </div>
 
-    <div class="form-group">
-        @Html.Label("Image")
-        @Html.TextBox("image", null, new { type = "file", @class = "form-control-file" })
-    </div>
+        <div class="form-group">
+            @Html.Label("Image")
+            @Html.TextBox("image", null, new { type = "file", @class = "form-control-file" })
+        </div>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
-}
+        <button type="submit" class="btn btn-primary submit-btn">Submit</button>
+    }
+</div>
 
 <h4>Add a Comment</h4>
-@using (Html.BeginForm("AddComment", "Posts", FormMethod.Post))
-{
-    @Html.AntiForgeryToken()
+<div class="add-comment-form">
+    @using (Html.BeginForm("AddComment", "Posts", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
 
-    @Html.Hidden("postId", Model.Id)
+        @Html.Hidden("postId", Model.Id)
 
-    <div class="form-group">
-        @Html.TextArea("content", null, new { @class = "form-control", rows = "4" })
-    </div>
+        <div class="form-group">
+            @Html.TextArea("content", null, new { @class = "form-control", rows = "4" })
+        </div>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
-}
+        <button type="submit" class="btn btn-primary submit-btn">Submit</button>
+    }
+</div>
