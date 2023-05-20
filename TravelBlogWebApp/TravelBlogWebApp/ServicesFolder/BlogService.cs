@@ -14,6 +14,27 @@ namespace TravelBlogWebApp.ServicesFolder
             this.repositoryWrapper = repositoryWrapper;
         }
 
-        
+        public void Create(Blog entity)
+        {
+            repositoryWrapper.BlogRepository.Create(entity);
+            repositoryWrapper.Save();
+        }
+
+        public void Delete(Blog entity)
+        {
+           repositoryWrapper.BlogRepository.Delete(entity);
+           repositoryWrapper.Save();
+        }
+
+        public IQueryable<Blog> FindAll()
+        {
+           return repositoryWrapper.BlogRepository.FindAll();
+        }
+
+        public void Update(Blog entity)
+        {
+            repositoryWrapper.BlogRepository.Update(entity);
+            repositoryWrapper.Save();
+        }
     }
 }

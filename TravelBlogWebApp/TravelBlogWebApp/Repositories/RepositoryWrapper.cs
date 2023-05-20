@@ -102,5 +102,11 @@ namespace TravelBlogWebApp.Repositories
             }
         }
 
+
+        public void Save()
+        {
+            context.SaveChanges();
+        }
+
     }
 }

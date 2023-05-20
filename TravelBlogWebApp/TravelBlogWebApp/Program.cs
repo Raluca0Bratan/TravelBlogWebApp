@@ -21,10 +21,18 @@ builder.Services.AddScoped<IBlogRepository, BlogRepository>();
 builder.Services.AddScoped<IDestinationRepository, DestinationRepository>();
 builder.Services.AddScoped<IPostRepository, PostRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ISectionRepository, SectionRepository>();    
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+
 builder.Services.AddScoped<IDestinationService, DestinationService>();
 builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<IBlogService, BlogService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<ISectionService,SectionService>();
+
+builder.Services.AddScoped<RepositoryWrapper>();
+
 builder.Services.AddScoped<SignInManager<IdentityUser>>();
 builder.Services.Configure<IdentityOptions>(options =>
 {

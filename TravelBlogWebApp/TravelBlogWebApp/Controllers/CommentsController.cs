@@ -1,107 +1,98 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TravelBlogWebApp.Models;
-using TravelBlogWebApp.ServicesFolder.Interfaces;
 
 namespace TravelBlogWebApp.Controllers
 {
-    public class BlogsController : Controller
+    public class CommentsController : Controller
     {
-        private readonly IBlogService blogService;
         private readonly TravelBlogDbContext _context;
 
-        public BlogsController(IBlogService blogService, TravelBlogDbContext context)
+        public CommentsController(TravelBlogDbContext context)
         {
-            this.blogService = blogService;
-            this._context = context;
+            _context = context;
         }
 
-        public IActionResult About()
-        {
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            return View();
-        }
-        public IActionResult TravelTips()
-        {
-            return View();
-        }
-
+        // GET: Comments
         public async Task<IActionResult> Index()
         {
-            return _context.Blogs != null ?
-                        View(await _context.Blogs.ToListAsync()) :
-                        Problem("Entity set 'TravelBlogDbContext.Blogs'  is null.");
+            var travelBlogDbContext = _context.Comments.Include(c => c.Post);
+            return View(await travelBlogDbContext.ToListAsync());
         }
 
-        // GET: Blogs1/Details/5
+        // GET: Comments/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Blogs == null)
+            if (id == null || _context.Comments == null)
             {
                 return NotFound();
             }
 
-            var blog = await _context.Blogs
+            var comment = await _context.Comments
+                .Include(c => c.Post)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (blog == null)
+            if (comment == null)
             {
                 return NotFound();
             }
 
-            return View(blog);
+            return View(comment);
         }
 
-        // GET: Blogs1/Create
+        // GET: Comments/Create
         public IActionResult Create()
         {
+            ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Id");
             return View();
         }
 
-        // POST: Blogs1/Create
+        // POST: Comments/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Author,Name")] Blog blog)
+        public async Task<IActionResult> Create([Bind("Id,UserId,PostId,DateTime,Content")] Comment comment)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(blog);
+                _context.Add(comment);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(blog);
+            ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Id", comment.PostId);
+            return View(comment);
         }
 
-        // GET: Blogs1/Edit/5
+        // GET: Comments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Blogs == null)
+            if (id == null || _context.Comments == null)
             {
                 return NotFound();
             }
 
-            var blog = await _context.Blogs.FindAsync(id);
-            if (blog == null)
+            var comment = await _context.Comments.FindAsync(id);
+            if (comment == null)
             {
                 return NotFound();
             }
-            return View(blog);
+            ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Id", comment.PostId);
+            return View(comment);
         }
 
-        // POST: Blogs1/Edit/5
+        // POST: Comments/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Author,Name")] Blog blog)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,PostId,DateTime,Content")] Comment comment)
         {
-            if (id != blog.Id)
+            if (id != comment.Id)
             {
                 return NotFound();
             }
@@ -110,12 +101,12 @@ namespace TravelBlogWebApp.Controllers
             {
                 try
                 {
-                    _context.Update(blog);
+                    _context.Update(comment);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BlogExists(blog.Id))
+                    if (!CommentExists(comment.Id))
                     {
                         return NotFound();
                     }
@@ -126,49 +117,51 @@ namespace TravelBlogWebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(blog);
+            ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Id", comment.PostId);
+            return View(comment);
         }
 
-        // GET: Blogs1/Delete/5
+        // GET: Comments/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Blogs == null)
+            if (id == null || _context.Comments == null)
             {
                 return NotFound();
             }
 
-            var blog = await _context.Blogs
+            var comment = await _context.Comments
+                .Include(c => c.Post)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (blog == null)
+            if (comment == null)
             {
                 return NotFound();
             }
 
-            return View(blog);
+            return View(comment);
         }
 
-        // POST: Blogs1/Delete/5
+        // POST: Comments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Blogs == null)
+            if (_context.Comments == null)
             {
-                return Problem("Entity set 'TravelBlogDbContext.Blogs'  is null.");
+                return Problem("Entity set 'TravelBlogDbContext.Comments'  is null.");
             }
-            var blog = await _context.Blogs.FindAsync(id);
-            if (blog != null)
+            var comment = await _context.Comments.FindAsync(id);
+            if (comment != null)
             {
-                _context.Blogs.Remove(blog);
+                _context.Comments.Remove(comment);
             }
-
+            
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BlogExists(int id)
+        private bool CommentExists(int id)
         {
-            return (_context.Blogs?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Comments?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
