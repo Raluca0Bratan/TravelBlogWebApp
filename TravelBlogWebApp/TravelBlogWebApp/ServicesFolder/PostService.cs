@@ -8,9 +8,9 @@ namespace TravelBlogWebApp.ServicesFolder
 {
     public class PostService : IPostService
     {
-        private readonly RepositoryWrapper repositoryWrapper;
+        private readonly IRepositoryWrapper repositoryWrapper;
 
-        public PostService(RepositoryWrapper repositoryWrapper)
+        public PostService(IRepositoryWrapper repositoryWrapper)
         {
             this.repositoryWrapper = repositoryWrapper;
         }

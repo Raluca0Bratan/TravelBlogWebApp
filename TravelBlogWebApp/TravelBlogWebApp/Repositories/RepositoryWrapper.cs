@@ -3,7 +3,7 @@ using TravelBlogWebApp.Repositories.Interfaces;
 
 namespace TravelBlogWebApp.Repositories
 {
-    public class RepositoryWrapper
+    public class RepositoryWrapper : IRepositoryWrapper
     {
         private readonly TravelBlogDbContext context;
         private IBlogRepository blogRepository;
@@ -51,7 +51,7 @@ namespace TravelBlogWebApp.Repositories
             }
         }
 
-        public IPostRepository PostRepository
+        public virtual IPostRepository PostRepository
         {
             get
             {

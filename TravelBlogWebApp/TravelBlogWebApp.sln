@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33502.453
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelBlogWebApp", "TravelBlogWebApp\TravelBlogWebApp.csproj", "{CD862403-409A-48C2-A358-F1B5B5BA0DA6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelBlogWebApp", "TravelBlogWebApp\TravelBlogWebApp.csproj", "{CD862403-409A-48C2-A358-F1B5B5BA0DA6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelBlogWebApp.Test", "TravelBlogWebApp.Test\TravelBlogWebApp.Test.csproj", "{9670A7EF-FE2C-4D4F-9351-D61F72897D08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{CD862403-409A-48C2-A358-F1B5B5BA0DA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD862403-409A-48C2-A358-F1B5B5BA0DA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD862403-409A-48C2-A358-F1B5B5BA0DA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9670A7EF-FE2C-4D4F-9351-D61F72897D08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9670A7EF-FE2C-4D4F-9351-D61F72897D08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9670A7EF-FE2C-4D4F-9351-D61F72897D08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9670A7EF-FE2C-4D4F-9351-D61F72897D08}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
