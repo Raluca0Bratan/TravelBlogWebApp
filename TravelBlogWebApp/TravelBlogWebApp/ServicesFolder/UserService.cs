@@ -8,9 +8,9 @@ namespace TravelBlogWebApp.ServicesFolder
 {
     public class UserService:IUserService
     {
-        private readonly RepositoryWrapper repositoryWrapper;
+        private readonly IRepositoryWrapper repositoryWrapper;
 
-        public UserService(RepositoryWrapper repository)
+        public UserService(IRepositoryWrapper repository)
         {
             this.repositoryWrapper = repository;
         }

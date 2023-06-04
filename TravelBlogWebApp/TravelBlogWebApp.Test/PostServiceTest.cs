@@ -1,7 +1,6 @@
 using Moq;
 using System.Linq.Expressions;
 using TravelBlogWebApp.Models;
-using TravelBlogWebApp.Repositories;
 using TravelBlogWebApp.Repositories.Interfaces;
 using TravelBlogWebApp.ServicesFolder;
 

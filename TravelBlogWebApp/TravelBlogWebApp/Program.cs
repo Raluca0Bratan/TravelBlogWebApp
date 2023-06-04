@@ -31,7 +31,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<ISectionService,SectionService>();
 
-builder.Services.AddScoped<RepositoryWrapper>();
+builder.Services.AddScoped<IRepositoryWrapper,RepositoryWrapper>();
 
 builder.Services.AddScoped<SignInManager<IdentityUser>>();
 builder.Services.Configure<IdentityOptions>(options =>

@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 using TravelBlogWebApp.Models;
 using TravelBlogWebApp.Repositories;
+using TravelBlogWebApp.Repositories.Interfaces;
 using TravelBlogWebApp.ServicesFolder.Interfaces;
 
 namespace TravelBlogWebApp.ServicesFolder
@@ -8,9 +9,9 @@ namespace TravelBlogWebApp.ServicesFolder
     public class SectionService:ISectionService
     {
 
-        private readonly RepositoryWrapper repositoryWrapper;
+        private readonly IRepositoryWrapper repositoryWrapper;
 
-        public SectionService(RepositoryWrapper repository)
+        public SectionService(IRepositoryWrapper repository)
         {
             this.repositoryWrapper = repository;
         }
