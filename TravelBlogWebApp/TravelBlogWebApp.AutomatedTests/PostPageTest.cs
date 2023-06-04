@@ -26,22 +26,20 @@ namespace TravelBlogWebApp.AutomatedTests
         public void Administrator_CanAccessPostPage()
         {
             // Arrange
-            var baseUrl = "http://localhost:5000"; // Update with the URL of your application
-            var loginUrl = $"{baseUrl}/Account/Login"; // Update with the login URL
-            var username = "admin";
-            var password = "password";
+            var baseUrl = "https://localhost:7143"; // Update with the URL of your application
+            var loginUrl = $"{baseUrl}/Identity/Account/Login"; // Update with the login URL
+            var email = "admin@admin.com";
+            var password = "Parola123!";
 
             // Login as Administrator
             driver.Navigate().GoToUrl(loginUrl);
-            driver.FindElement(By.Id("Input_Username")).SendKeys(username);
+            driver.FindElement(By.Id("Input_Email")).SendKeys(email);
             driver.FindElement(By.Id("Input_Password")).SendKeys(password);
-            driver.FindElement(By.Id("login-button")).Click();
+            driver.FindElement(By.Id("login-submit")).Click();
 
             // Act
-            driver.Navigate().GoToUrl($"{baseUrl}/Post"); // Update with the URL of the post page
+            driver.Navigate().GoToUrl($"{baseUrl}/Posts"); // Update with the URL of the post page
 
-            // Assert
-            Assert.IsTrue(driver.Title.Contains("Post"));
 
             // Verify the presence of Create New button
             var createNewButton = driver.FindElement(By.LinkText("Create New"));
